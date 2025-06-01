@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: java-compiler
+    env: docker
+    plan: free
+    autoDeploy: true
+

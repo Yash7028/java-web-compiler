@@ -13,41 +13,45 @@
     #output {
       white-space: pre-wrap;
       font-family: 'Fira Code', monospace;
-      min-height: 400px; /* same height as editor */
+      min-height: 400px;
       overflow-x: auto;
     }
   </style>
 </head>
-<body class="p-6 min-h-screen transition-colors duration-500">
+<body class="p-4 sm:p-6 min-h-screen transition-colors duration-500">
 
-  <div class="max-w-7xl mx-auto space-y-4">
-    <div class="flex justify-between items-center">
+  <div class="max-w-7xl mx-auto space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <h1 class="text-3xl font-bold text-blue-400">🧠 Java Live Compiler</h1>
       <button id="toggleThemeBtn"
-        class="py-2 px-4 rounded transition"
-        aria-label="Toggle Light/Dark Mode"
-      >
+        class="py-2 px-4 rounded transition text-sm"
+        aria-label="Toggle Light/Dark Mode">
         <!-- text set dynamically -->
       </button>
     </div>
 
+    <!-- File name input -->
     <input type="text" id="filename" value="Main.java"
-      class="px-4 py-2 rounded border w-64 transition-colors duration-500" />
+      class="px-4 py-2 rounded border w-full sm:w-64 transition-colors duration-500" />
 
-    <!-- FLEX CONTAINER: column on small, row on md+ -->
+    <!-- Editor & Output -->
     <div class="flex flex-col md:flex-row gap-6">
+      <!-- Editor -->
       <div class="flex-1 flex flex-col">
         <label for="editor" class="mb-2 text-sm font-medium transition-colors duration-500">Java Code</label>
         <div id="editor"></div>
       </div>
 
+      <!-- Output -->
       <div class="flex-1 flex flex-col">
         <label for="output" class="mb-2 text-sm font-medium transition-colors duration-500">Output</label>
         <pre id="output" class="p-4 rounded min-h-[400px] transition-colors duration-500">// Output appears here</pre>
       </div>
     </div>
 
-    <div class="flex gap-4">
+    <!-- Buttons -->
+    <div class="flex flex-wrap gap-4">
       <button onclick="compileCode()"
         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded transition-colors duration-300">
         ▶ Run Code
@@ -57,18 +61,38 @@
         💾 Download Code
       </button>
     </div>
+
+    <!-- Developer Credit -->
+    <footer class="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
+  <div class="flex justify-center items-center gap-3 flex-wrap">
+    <span>Developed by</span>
+    <span class="font-semibold text-blue-500">Yash Batavle</span>
+    <a href="https://github.com/Yash7028" target="_blank" rel="noopener"
+       class="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M12 0C5.372 0 0 5.373 0 12a12 12 0 008.208 11.385c.6.111.82-.261.82-.58 0-.286-.011-1.042-.017-2.045-3.338.724-4.042-1.611-4.042-1.611-.546-1.388-1.333-1.757-1.333-1.757-1.09-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.071 1.835 2.81 1.305 3.495.997.109-.776.419-1.305.762-1.605-2.666-.306-5.467-1.333-5.467-5.931 0-1.31.469-2.382 1.236-3.222-.124-.304-.536-1.532.118-3.193 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 013.003-.404 11.5 11.5 0 013.003.404c2.292-1.552 3.298-1.23 3.298-1.23.655 1.661.243 2.889.119 3.193.77.84 1.235 1.912 1.235 3.222 0 4.609-2.804 5.623-5.479 5.921.43.372.814 1.103.814 2.222 0 1.605-.015 2.898-.015 3.293 0 .321.218.695.825.577A12.003 12.003 0 0024 12c0-6.627-5.373-12-12-12z">
+        </path>
+      </svg>
+    </a>
+    <a href="https://www.linkedin.com/in/yash-batavle-b4b870298" target="_blank" rel="noopener"
+       class="text-blue-600 hover:underline dark:text-blue-400">
+      LinkedIn
+    </a>
+  </div>
+</footer>
+    
   </div>
 
-  <!-- Load Monaco Editor -->
+  <!-- Monaco Editor -->
   <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
   <script>
     let editor;
-    let isDark = true; // current mode
+    let isDark = true;
 
     function loadTheme() {
       const saved = localStorage.getItem('javaCompilerTheme');
-      if (saved === 'light') return false;
-      return true;
+      return saved !== 'light';
     }
 
     function applyTheme(dark) {
@@ -100,6 +124,7 @@
         output.classList.add("bg-white", "text-black", "border", "border-gray-300");
         editor.updateOptions({ theme: "vs-light" });
       }
+
       isDark = dark;
       localStorage.setItem('javaCompilerTheme', dark ? 'dark' : 'light');
     }
@@ -113,7 +138,7 @@
     }
 }`,
         language: 'java',
-        theme: 'vs-dark', // will be overridden
+        theme: 'vs-dark',
         automaticLayout: true
       });
 
